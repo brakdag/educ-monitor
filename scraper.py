@@ -1,5 +1,4 @@
 import asyncio
-import json
 from playwright.async_api import async_playwright
 from datetime import datetime
 
@@ -35,17 +34,17 @@ async def get_llamados():
                         except:
                             pass
                     
-                    # Content summary
-                    content = f"{item.get('nivel')} - {item.get('departamento')} - {item.get('lugar_trabajo')} - {item.get('articulo')}"
-                    
-                    llamados.append({
+                    # Store everything we need
+                    llamado_data = {
                         "unique_id": unique_id,
                         "escuela_id": escuela_id,
-                        "content": content,
                         "tipo_llamado": item.get("tipo_llamado", ""),
                         "fecha_llamado": fecha_llamado,
-                        "fecha_publicacion": datetime.now().strftime("%Y-%m-%d")
-                    })
+                        "fecha_publicacion": datetime.now().strftime("%Y-%m-%d"),
+                        "raw_data": item # Keep raw API data for rich notification
+                    }
+                    
+                    llamados.append(llamado_data)
             
             await browser.close()
             return llamados

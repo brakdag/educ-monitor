@@ -14,14 +14,20 @@ async def run_process():
     today = datetime.now().strftime("%Y-%m-%d")
     
     for llamado in llamados:
+        # Extract fields for database
+        unique_id = llamado['unique_id']
+        tipo = llamado['tipo_llamado']
+        fecha_llamado = llamado['fecha_llamado']
+        fecha_publicacion = llamado['fecha_publicacion']
+        
         # 1. ALWAYS add to DB (record everything)
-        # add_llamado returns True if it was a new record
+        # Using the raw_data for the content field in the DB for simplicity
         is_new = add_llamado(
-            llamado['unique_id'], 
-            llamado['content'], 
-            llamado['fecha_publicacion'],
-            llamado['tipo_llamado'],
-            llamado['fecha_llamado']
+            unique_id, 
+            str(llamado['raw_data']), 
+            fecha_publicacion,
+            tipo,
+            fecha_llamado
         )
         
         # 2. Filter for notification
@@ -33,11 +39,12 @@ async def run_process():
             continue
         
         # Date check
-        if llamado['fecha_llamado'] and llamado['fecha_llamado'] < today:
+        if fecha_llamado and fecha_llamado < today:
             continue
                 
         # It's new, allowed, and vigente!
-        notify_home_assistant(llamado)
+        # Send raw_data for rich notification
+        notify_home_assistant(llamado['raw_data'])
         print(f"Nuevo llamado vigente en Esc. {llamado['escuela_id']} enviado a MQTT.")
 
 def main():
