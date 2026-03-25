@@ -6,6 +6,13 @@ import os
 
 def notify_home_assistant(llamado):
     # Retrieve MQTT settings from config
+    if config.TEST_MODE:
+        print(f"--- [TEST MODE] Notification to MQTT ---")
+        print(f"Topic: {config.MQTT_TOPIC}")
+        print(f"Payload: {json.dumps(llamado, indent=2)}")
+        print(f"----------------------------------------")
+        return
+
     broker = config.MQTT_BROKER
     port = config.MQTT_PORT
     topic = config.MQTT_TOPIC

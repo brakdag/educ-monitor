@@ -3,8 +3,8 @@
 ## 1. Agente Scraper (Eficiente, c/1 hora)
 - **Objetivo:** Obtener datos dinámicos con consumo optimizado.
 - **Acción:**
-    1. Ejecuta Playwright en modo headless, bloqueando recursos innecesarios (imágenes, fuentes, CSS).
-    2. Extrae la tabla de llamados una vez cargada la página.
+    1. Ejecuta Playwright en modo headless, bloqueando recursos innecesarios.
+    2. Intercepta la petición de red a `/data` para capturar el JSON directamente.
 
 ## 2. Agente Analista
 - **Objetivo:** Comparación de estados.

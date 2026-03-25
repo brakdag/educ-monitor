@@ -25,6 +25,10 @@ class Config:
             return None
         return [s.strip() for s in val.split(",")]
 
+    @property
+    def TEST_MODE(self):
+        return os.getenv("TEST_MODE", "false").lower() == "true"
+
     def update_setting(self, key, value):
         """Update a setting in the .env file."""
         set_key(ENV_FILE, key, str(value))

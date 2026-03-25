@@ -1,23 +1,29 @@
-# Scraping de Llamados Docentes - DGE Mendoza
+# educ-monitor
 
-Sistema automatizado de monitoreo de llamados docentes, diseñado para correr en servidores de bajo recurso (ej. Atom N2600 + Home Assistant).
+Sistema automatizado de monitoreo de llamados docentes (DGE Mendoza).
 
 ## Características
-- **Optimización de recursos:** Se utiliza Playwright en modo headless, optimizado para no cargar imágenes ni CSS, ejecutándose cada 1 hora para minimizar el impacto en memoria.
-- **Integración:** Notificaciones publicadas a través de protocolo **MQTT**.
-- **Persistencia:** Almacenamiento local mediante SQLite para historial y detección de nuevos llamados.
+- **Scraping Optimizado:** Captura directa de datos JSON desde los servicios de la DGE.
+- **Persistencia Total:** Almacena el historial completo en SQLite (`llamados.db`).
+- **Filtrado Inteligente:** Notifica únicamente llamados nuevos que coinciden con los filtros de escuela y que están vigentes.
+- **Integración:** Notificaciones publicadas vía **MQTT**.
+- **Interfaz CLI:** Gestión de configuración y ejecución sencilla mediante línea de comandos.
 
-## Requisitos
-- Python 3.11+
-- `playwright`, `requests`, `beautifulsoup4`, `paho-mqtt`
-- SQLite3
+## Instalación
+1. Clonar el repositorio.
+2. Ejecutar `./install.sh` para configurar el entorno, dependencias y base de datos.
+3. Completar la configuración inicial en `.env` (o usar la CLI).
+
+## Configuración y Uso (CLI)
+`educ_monitor.py` permite configurar la aplicación:
+
+- `--run`: Ejecuta el ciclo de monitoreo.
+- `--set-mqtt-ip <ip>`: Configura el broker MQTT.
+- `--set-filters <lista_escuelas>`: Configura filtros de escuela (ej: `4117,4124`).
+- `--show-config`: Muestra la configuración actual.
+
+Nota: El funcionamiento asegura que SIEMPRE se registra todo en la base de datos, y solo se notifica si el llamado es nuevo, pertenece a una escuela permitida y está vigente (fecha >= hoy).
 
 ## Integración
-El sistema publica mensajes en un servidor MQTT. Esto permite integrar fácilmente los datos en Home Assistant (vía sensor MQTT), Node-RED o cualquier otro sistema de automatización.
-
-## Session Resumption Guide
-1. **Ambiente:** Activa el entorno virtual antes de ejecutar cualquier comando: `source venv/bin/activate`.
-2. **Configuración:** Asegúrate de tener el archivo `.env` configurado según `.env.example` con las escuelas y los datos del broker MQTT.
-3. **Ejecución:** Usa `./run.sh` para una ejecución manual y pruebas.
-4. **Logs:** Consulta `cron.log` para revisar errores de ejecución.
-5. **Base de Datos:** El estado de los llamados se mantiene en `llamados.db`.
+El sistema publica mensajes JSON en un tópico MQTT configurado, ideal para Home Assistant o Node-RED.
+EOF
