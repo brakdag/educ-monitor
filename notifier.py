@@ -4,12 +4,38 @@ import json
 import time
 import os
 
+def format_notification(raw_data):
+    """Filters the payload for MQTT notification."""
+    
+    # Extract ID
+    escuela_info = raw_data.get("lugar_trabajo", "")
+    escuela_id = escuela_info.split(' - ')[0] if ' - ' in escuela_info else escuela_info
+    
+    # Basic info
+    filtered_data = {
+        "escuela": escuela_id,
+        "materia": raw_data.get("materia"),
+        "articulo": raw_data.get("articulo")
+    }
+    
+    # Conditional Date fields
+    for i in range(1, 5):
+        key = f"fecha_llamado_{i}"
+        val = raw_data.get(key)
+        if val is not None:
+            filtered_data[key] = val
+            
+    return filtered_data
+
 def notify_home_assistant(llamado):
+    # Filter the payload
+    payload_data = format_notification(llamado)
+    
     # Retrieve MQTT settings from config
     if config.TEST_MODE:
         print(f"--- [TEST MODE] Notification to MQTT ---")
         print(f"Topic: {config.MQTT_TOPIC}")
-        print(f"Payload: {json.dumps(llamado, indent=2)}")
+        print(f"Payload: {json.dumps(payload_data, indent=2)}")
         print(f"----------------------------------------")
         return
 
@@ -30,7 +56,7 @@ def notify_home_assistant(llamado):
         client.loop_start()
         
         # Publish message
-        payload = json.dumps(llamado)
+        payload = json.dumps(payload_data)
         client.publish(topic, payload, retain=True)
         
         time.sleep(1) # Ensure message is sent
