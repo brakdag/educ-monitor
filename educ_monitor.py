@@ -35,10 +35,12 @@ async def run_process():
             continue
             
         # School check
-        if allowed_schools and llamado['escuela_id'] not in allowed_schools:
+        is_allowed = not allowed_schools or llamado['escuela_id'] in allowed_schools
+        if not is_allowed:
             continue
         
         # Date check
+
         if fecha_llamado and fecha_llamado < today:
             continue
                 

@@ -39,6 +39,7 @@ def notify_home_assistant(llamado):
         print(f"----------------------------------------")
         return
 
+
     broker = config.MQTT_BROKER
     port = config.MQTT_PORT
     topic = config.MQTT_TOPIC
