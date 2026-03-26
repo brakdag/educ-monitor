@@ -26,4 +26,3 @@ Nota: El funcionamiento asegura que SIEMPRE se registra todo en la base de datos
 
 ## Integración
 El sistema publica mensajes JSON en un tópico MQTT configurado, ideal para Home Assistant o Node-RED.
-EOF
