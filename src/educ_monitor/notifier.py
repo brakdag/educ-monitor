@@ -1,4 +1,4 @@
-from config import config
+from educ_monitor.config import config
 import paho.mqtt.client as mqtt
 import json
 import time
@@ -27,43 +27,43 @@ def format_notification(raw_data):
             
     return filtered_data
 
-def notify_home_assistant(llamado):
-    # Filter the payload
+def connect_mqtt():
+    if config.TEST_MODE:
+        return None
+    broker = config.MQTT_BROKER
+    port = config.MQTT_PORT
+    user = os.getenv("MQTT_USER")
+    password = os.getenv("MQTT_PASSWORD")
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    if user and password:
+        client.username_pw_set(user, password)
+    try:
+        client.connect(broker, port, 60)
+        client.loop_start()
+        return client
+    except Exception as e:
+        print(f"Error connecting to MQTT: {e}")
+        return None
+
+def publish_mqtt(client, llamado):
     payload_data = format_notification(llamado)
-    
-    # Retrieve MQTT settings from config
     if config.TEST_MODE:
         print(f"--- [TEST MODE] Notification to MQTT ---")
         print(f"Topic: {config.MQTT_TOPIC}")
         print(f"Payload: {json.dumps(payload_data, indent=2)}")
         print(f"----------------------------------------")
         return
+    if client:
+        try:
+            payload = json.dumps(payload_data)
+            client.publish(config.MQTT_TOPIC, payload, retain=True)
+            time.sleep(0.5)
+        except Exception as e:
+            print(f"Error publishing to MQTT: {e}")
 
-    broker = config.MQTT_BROKER
-    port = config.MQTT_PORT
-    topic = config.MQTT_TOPIC
-    user = os.getenv("MQTT_USER")
-    password = os.getenv("MQTT_PASSWORD")
-
-    # Create client
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-    
-    if user and password:
-        client.username_pw_set(user, password)
-    
-    try:
-        print(f"DEBUG: Attempting to connect to {broker}:{port}")
-        client.connect(broker, port, 60)
-        client.loop_start()
-        
-        # Publish message
-        payload = json.dumps(payload_data)
-        client.publish(topic, payload, retain=True)
-        
-        time.sleep(1) # Ensure message is sent
+def disconnect_mqtt(client):
+    if client:
         client.loop_stop()
         client.disconnect()
-        print(f"Notification sent to MQTT topic: {topic}")
-    except Exception as e:
-        print(f"Error sending MQTT notification: {e}")
+
 

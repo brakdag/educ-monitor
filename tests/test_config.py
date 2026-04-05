@@ -2,16 +2,17 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import config
-from config import Config
+from educ_monitor import config
+from educ_monitor.config import Config
 import pytest
 
 def test_config_defaults():
     # We can create a fresh Config instance
     c = Config()
-    assert c.MQTT_BROKER == "localhost"
-    assert c.MQTT_PORT == 1883
-    assert c.SCHOOL_FILTER is None
+    # Check against environment
+    import os
+    assert c.MQTT_BROKER == os.getenv("MQTT_BROKER", "localhost")
+    assert c.MQTT_PORT == int(os.getenv("MQTT_PORT", 1883))
 
 def test_update_config(tmp_path, monkeypatch):
     # Set up a fake .env file

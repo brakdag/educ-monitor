@@ -3,7 +3,7 @@ import argparse
 from datetime import datetime
 from .scraper import get_llamados
 from .database import init_db, add_llamado
-from .notifier import notify_home_assistant
+from .notifier import connect_mqtt, publish_mqtt, disconnect_mqtt
 from .config import config
 
 async def run_process():
@@ -12,6 +12,7 @@ async def run_process():
     
     allowed_schools = config.SCHOOL_FILTER
     today = datetime.now().strftime("%Y-%m-%d")
+    pending_notifications = []
     
     for llamado in llamados:
         # Extract fields for database
@@ -40,14 +41,20 @@ async def run_process():
             continue
         
         # Date check
-
         if fecha_llamado and fecha_llamado < today:
             continue
                 
         # It's new, allowed, and vigente!
-        # Send raw_data for rich notification
-        notify_home_assistant(llamado['raw_data'])
-        print(f"Nuevo llamado vigente en Esc. {llamado['escuela_id']} enviado a MQTT.")
+        pending_notifications.append(llamado['raw_data'])
+    
+    # Process notifications
+    if pending_notifications:
+        client = connect_mqtt()
+        for payload in pending_notifications:
+            publish_mqtt(client, payload)
+        if client:
+            disconnect_mqtt(client)
+        print(f"Se enviaron {len(pending_notifications)} notificaciones.")
 
 def main():
     parser = argparse.ArgumentParser(

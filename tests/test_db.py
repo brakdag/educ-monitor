@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import sqlite3
 import pytest
-import db
+from educ_monitor import database as db
 
 def test_db_operations(tmp_path, monkeypatch):
     db_file = tmp_path / "llamados.db"
