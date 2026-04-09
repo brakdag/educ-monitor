@@ -53,7 +53,9 @@ else
     echo "El archivo .env ya existe, se mantiene la configuración actual."
 fi
 
-# 5. Asegurar permisos
+# 5. Asegurar estructura de directorios y permisos
+echo "✅ Preparando directorios de datos..."
+mkdir -p data
 chmod +x run.sh
 
 # 6. Inicializar BD

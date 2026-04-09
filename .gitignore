@@ -15,3 +15,4 @@ cron.log
 # System
 .DS_Store
 .vscode/
+.chat_history
