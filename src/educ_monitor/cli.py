@@ -1,4 +1,3 @@
-import asyncio
 import argparse
 from datetime import datetime
 from .scraper import get_llamados
@@ -6,9 +5,16 @@ from .database import init_db, add_llamado
 from .notifier import connect_mqtt, publish_mqtt, disconnect_mqtt
 from .config import config
 
-async def run_process():
+def run_process():
+    # 0. Validate configuration
+    try:
+        config.validate()
+    except ValueError as e:
+        print(f"Error de configuración: {e}")
+        return
+
     init_db()
-    llamados = await get_llamados()
+    llamados = get_llamados()
     
     allowed_schools = config.SCHOOL_FILTER
     today = datetime.now().strftime("%Y-%m-%d")
@@ -61,7 +67,7 @@ def main():
         description="Educ Monitor - Monitoreo de llamados docentes",
         epilog="""Nota sobre el funcionamiento:
 La aplicación registra SIEMPRE todos los llamados encontrados en 'llamados.db' para mantener un historial completo.
-La notificación vía MQTT solo se realiza si:
+La notificación vóa MQTT solo se realiza si:
 1. El llamado es nuevo (no registrado previamente).
 2. La escuela está dentro de los filtros configurados (si existen).
 3. La fecha del llamado es igual o posterior a la fecha actual (vigente).
@@ -103,7 +109,7 @@ La notificación vía MQTT solo se realiza si:
 
     # Run execution
     if args.run:
-        asyncio.run(run_process())
+        run_process()
     elif not any([args.set_mqtt_ip, args.set_mqtt_port, args.set_topic, args.set_filters, args.show_config]):
         parser.print_help()
 

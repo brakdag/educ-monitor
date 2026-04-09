@@ -1,28 +1,18 @@
 import requests
 import time
 from datetime import datetime
+from .config import config
 
 def get_llamados():
     session = requests.Session()
     
-    # Header configuration based on successful reproduction
-    user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1"
-    headers = {
-        "Host": "educacionales.mendoza.edu.ar",
-        "User-Agent": user_agent,
-        "Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Language": "es-US,es;q=0.9,en-US;q=0.8,en;q=0.7,es-419;q=0.6",
-        "Referer": "https://educacionales.mendoza.edu.ar/",
-        "X-Requested-With": "XMLHttpRequest",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-        "Priority": "u=1, i"
-    }
+    # Headers configuration from config object
+    headers = config.DEFAULT_HEADERS.copy()
+    headers["User-Agent"] = config.USER_AGENT
 
     try:
         # 1. Establish session
-        session.get("https://educacionales.mendoza.edu.ar/", headers={"User-Agent": user_agent})
+        session.get("https://educacionales.mendoza.edu.ar/", headers={"User-Agent": config.USER_AGENT})
         
         # 2. Fetch data
         timestamp = int(time.time() * 1000)
