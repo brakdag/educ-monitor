@@ -23,7 +23,7 @@ Sistema automatizado de monitoreo de llamados docentes (DGE Mendoza).
 3. Completar la configuración inicial en `.env`.
 
 ## Configuración y Uso (CLI)
-`educ_monitor.py` permite configurar la aplicación:
+`python3 -m educ_monitor.cli` permite configurar la aplicación:
 - `--run`: Ejecuta el ciclo de monitoreo.
 - `--set-mqtt-ip <ip>`: Configura el broker MQTT.
 - `--set-filters <lista_escuelas>`: Configura filtros de escuela.

@@ -1,20 +1,61 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 import pytest
-from datetime import datetime
-import re
+from unittest.mock import patch, MagicMock
+from requests.exceptions import HTTPError, Timeout
+from src.educ_monitor.scraper import get_llamados
 
-# We test the parsing logic directly as it's the core of scraper.py
-def test_parse_date():
-    col0 = "1er: 26/03/26 19:30"
-    match = re.search(r'(\d{1,2}/\d{1,2}/\d{2})', col0)
-    assert match is not None
-    fecha_str = match.group(1)
-    fecha_llamado = datetime.strptime(fecha_str, "%d/%m/%y").strftime("%Y-%m-%d")
-    assert fecha_llamado == "2026-03-26"
+@patch('requests.Session.get')
+def test_get_llamados_success(mock_get):
+    """Tests that get_llamados correctly parses a successful API response."""
+    # Mock response object
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "datos": [
+            {
+                "id": 123,
+                "lugar_trabajo": "4117 - Escuela A",
+                "tipo_llamado": "1er Llamado",
+                "fecha_llamado_1": "15/04/24 10:00",
+                "materia": "Matemática",
+                "articulo": "Cargo"
+            }
+        ]
+    }
+    mock_response.raise_for_status = MagicMock()
+    mock_get.return_value = mock_response
+
+    result = get_llamados()
     
-    col0_bad = "No date here"
-    match_bad = re.search(r'(\d{1,2}/\d{1,2}/\d{2})', col0_bad)
-    assert match_bad is None
+    assert len(result) == 1
+    assert result[0]['unique_id'] == "123"
+    assert result[0]['escuela_id'] == "4117"
+    assert result[0]['fecha_llamado'] == "2024-04-15"
+
+@patch('requests.Session.get')
+def test_get_llamados_http_error(mock_get):
+    """Tests that get_llamados handles HTTP errors gracefully."""
+    mock_response = MagicMock()
+    mock_response.raise_for_status.side_effect = HTTPError("404 Not Found")
+    mock_get.return_value = mock_response
+
+    result = get_llamados()
+    assert result == []
+
+@patch('requests.Session.get')
+def test_get_llamados_malformed_json(mock_get):
+    """Tests that get_llamados handles invalid JSON responses."""
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.side_effect = ValueError("No JSON object could be decoded")
+    mock_get.return_value = mock_response
+
+    result = get_llamados()
+    assert result == []
+
+@patch('requests.Session.get')
+def test_get_llamados_timeout(mock_get):
+    """Tests that get_llamados handles request timeouts."""
+    mock_get.side_effect = Timeout("Request timed out")
+
+    result = get_llamados()
+    assert result == []

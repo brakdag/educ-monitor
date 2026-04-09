@@ -4,31 +4,34 @@ from .scraper import get_llamados
 from .database import init_db, add_llamado
 from .notifier import connect_mqtt, publish_mqtt, disconnect_mqtt
 from .config import config
+from .logger import get_logger
 
-def run_process():
-    # 0. Validate configuration
+logger = get_logger("cli")
+
+def run_process() -> None:
+    """
+    Executes the main monitoring cycle.
+    """
     try:
         config.validate()
     except ValueError as e:
-        print(f"Error de configuración: {e}")
+        logger.error(f"Configuration error: {e}")
         return
 
     init_db()
+    logger.info("Starting monitoring cycle...")
     llamados = get_llamados()
     
-    allowed_schools = config.SCHOOL_FILTER
+    allowed_schools = config.school_filter
     today = datetime.now().strftime("%Y-%m-%d")
     pending_notifications = []
     
     for llamado in llamados:
-        # Extract fields for database
         unique_id = llamado['unique_id']
         tipo = llamado['tipo_llamado']
         fecha_llamado = llamado['fecha_llamado']
         fecha_publicacion = llamado['fecha_publicacion']
         
-        # 1. ALWAYS add to DB (record everything)
-        # Using the raw_data for the content field in the DB for simplicity
         is_new = add_llamado(
             unique_id, 
             str(llamado['raw_data']), 
@@ -37,32 +40,32 @@ def run_process():
             fecha_llamado
         )
         
-        # 2. Filter for notification
         if not is_new:
             continue
             
-        # School check
         is_allowed = not allowed_schools or llamado['escuela_id'] in allowed_schools
         if not is_allowed:
             continue
         
-        # Date check
         if fecha_llamado and fecha_llamado < today:
             continue
                 
-        # It's new, allowed, and vigente!
         pending_notifications.append(llamado['raw_data'])
     
-    # Process notifications
     if pending_notifications:
         client = connect_mqtt()
         for payload in pending_notifications:
             publish_mqtt(client, payload)
         if client:
             disconnect_mqtt(client)
-        print(f"Se enviaron {len(pending_notifications)} notificaciones.")
+        logger.info(f"Cycle complete. {len(pending_notifications)} notifications sent.")
+    else:
+        logger.info("Cycle complete. No new notifications to send.")
 
-def main():
+def main() -> None:
+    """
+    CLI Entry point for the Educ Monitor application.
+    """
     parser = argparse.ArgumentParser(
         description="Educ Monitor - Monitoreo de llamados docentes",
         epilog="""Nota sobre el funcionamiento:
@@ -82,32 +85,29 @@ La notificación vóa MQTT solo se realiza si:
 
     args = parser.parse_args()
 
-    # Apply configuration updates
     if args.set_mqtt_ip:
         config.update_setting("MQTT_BROKER", args.set_mqtt_ip)
-        print(f"MQTT_BROKER actualizado a {args.set_mqtt_ip}")
+        logger.info(f"MQTT_BROKER updated to {args.set_mqtt_ip}")
     
     if args.set_mqtt_port:
         config.update_setting("MQTT_PORT", args.set_mqtt_port)
-        print(f"MQTT_PORT actualizado a {args.set_mqtt_port}")
+        logger.info(f"MQTT_PORT updated to {args.set_mqtt_port}")
 
     if args.set_topic:
         config.update_setting("MQTT_TOPIC", args.set_topic)
-        print(f"MQTT_TOPIC actualizado a {args.set_topic}")
+        logger.info(f"MQTT_TOPIC updated to {args.set_topic}")
 
     if args.set_filters:
         config.update_setting("SCHOOL_FILTER", args.set_filters)
-        print(f"SCHOOL_FILTER actualizado a {args.set_filters}")
+        logger.info(f"SCHOOL_FILTER updated to {args.set_filters}")
 
-    # Show config
     if args.show_config:
         print("Configuración actual:")
-        print(f"MQTT_BROKER: {config.MQTT_BROKER}")
-        print(f"MQTT_PORT: {config.MQTT_PORT}")
-        print(f"MQTT_TOPIC: {config.MQTT_TOPIC}")
-        print(f"SCHOOL_FILTER: {config.SCHOOL_FILTER}")
+        print(f"MQTT_BROKER: {config.mqtt_broker}")
+        print(f"MQTT_PORT: {config.mqtt_port}")
+        print(f"MQTT_TOPIC: {config.mqtt_topic}")
+        print(f"SCHOOL_FILTER: {config.school_filter}")
 
-    # Run execution
     if args.run:
         run_process()
     elif not any([args.set_mqtt_ip, args.set_mqtt_port, args.set_topic, args.set_filters, args.show_config]):

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "educ-monitor"
+version = "0.1.0"
+description = "Sistema automatizado de monitoreo de llamados docentes (DGE Mendoza)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests",
+    "paho-mqtt",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

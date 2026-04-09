@@ -33,3 +33,30 @@
 {"timestamp": "2026-04-09T19:05:24.270785", "level": "WARNING", "message": "API Retry 1/5 in 5s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
 {"timestamp": "2026-04-09T16:06:37.535743", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/config.py' escrito exitosamente."}
 {"timestamp": "2026-04-09T16:06:37.560792", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/cli.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:11:42.554760", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/config.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:11:42.593769", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/database.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:14:19.890311", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/cli.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:16:59.915689", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/logger.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:16:59.937888", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/scraper.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:16:59.967752", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/notifier.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:16:59.990278", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/cli.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:18:17.620554", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/database.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:18:17.640534", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/scraper.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:18:17.663427", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/notifier.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:20:18.726971", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/utils.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:20:18.748861", "level": "INFO", "logger": "tools", "message": "Archivo 'src/educ_monitor/scraper.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T19:20:37.858384", "level": "WARNING", "message": "API Retry 1/5 in 5s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T19:20:47.516940", "level": "WARNING", "message": "API Retry 2/5 in 10s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T19:21:02.487408", "level": "WARNING", "message": "API Retry 3/5 in 20s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T19:21:28.696303", "level": "WARNING", "message": "API Retry 4/5 in 40s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T19:22:14.365342", "level": "WARNING", "message": "API Retry 5/5 in 80s due to: 500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T16:24:02.287804", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_fetch_v2.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.292508", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_direct_fetch.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.296844", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_smarter_fetch.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.305654", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_precise_replica.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.310910", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_actual_scrape.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.326550", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_fetch.py' borrado."}
+{"timestamp": "2026-04-09T16:24:02.346698", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_scrape.py' borrado."}
+{"timestamp": "2026-04-09T16:24:19.625805", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_utils.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:25:17.426212", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_scraper.py' escrito exitosamente."}
+{"timestamp": "2026-04-09T16:25:17.451786", "level": "INFO", "logger": "tools", "message": "Archivo 'tests/test_notifier.py' escrito exitosamente."}

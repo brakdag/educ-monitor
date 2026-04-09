@@ -1,0 +1,8 @@
+2026-04-09 19:33:06,890 [INFO] educ_monitor.cli: Starting monitoring cycle...
+2026-04-09 19:33:07,724 [INFO] educ_monitor.scraper: Successfully fetched 1535 calls.
+2026-04-09 19:33:42,805 [INFO] educ_monitor.notifier: Connected to MQTT broker at 192.168.100.18:1883
+2026-04-09 19:33:47,320 [INFO] educ_monitor.notifier: Disconnected from MQTT broker.
+2026-04-09 19:33:47,321 [INFO] educ_monitor.cli: Cycle complete. 8 notifications sent.
+2026-04-09 19:37:36,380 [INFO] educ_monitor.cli: Starting monitoring cycle...
+2026-04-09 19:37:37,306 [INFO] educ_monitor.scraper: Successfully fetched 1538 calls.
+2026-04-09 19:37:38,806 [INFO] educ_monitor.cli: Cycle complete. No new notifications to send.
