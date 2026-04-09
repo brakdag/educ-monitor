@@ -1,15 +1,18 @@
 #!/bin/bash
-# install.sh - Configuración inicial automatizada de educ_monitor
+# install.sh - Configuración inicial robusta de educ_monitor
 
-echo "⚙️ Iniciando instalación completa..."
+# Detener el script si cualquier comando falla
+set -e
 
-# 0. Verificar si es root (necesario para apt)
+echo "⚙️ Iniciando instalación completa y robusta..."
+
+# 0. Verificar si es root
 if [ "$EUID" -ne 0 ]; then 
-  echo "⚠️ Error: Este script debe ejecutarse como root o con sudo para instalar dependencias del sistema."
+  echo "⚠️ Error: Este script debe ejecutarse como root o con sudo."
   exit 1
 fi
 
-# 1. Instalar dependencias del sistema (Python venv)
+# 1. Instalar dependencias del sistema
 echo "✅ Verificando dependencias del sistema..."
 if ! dpkg -s python3-venv >/dev/null 2>&1; then
     echo "Instalando python3-venv..."
@@ -18,20 +21,24 @@ else
     echo "python3-venv ya está instalado."
 fi
 
-# 2. Crear entorno virtual
+# 2. Gestionar entorno virtual (Limpieza de venv corruptos)
 echo "✅ Configurando entorno virtual..."
+if [ -d "venv" ] && [ ! -f "venv/bin/activate" ]; then
+    echo "⚠️ Se detectó un entorno virtual corrupto. Recreando..."
+    rm -rf venv
+fi
+
 if [ ! -d "venv" ]; then
     python3 -m venv venv
     echo "Entorno virtual creado."
 else
-    echo "El entorno virtual ya existe."
+    echo "El entorno virtual ya existe y es válido."
 fi
-source venv/bin/activate
 
-# 3. Instalar el proyecto y dependencias
+# 3. Instalar el proyecto y dependencias usando rutas directas
 echo "✅ Instalando el proyecto en modo editable..."
-pip install --upgrade pip
-pip install -e ".[dev]"
+./venv/bin/pip install --upgrade pip
+./venv/bin/pip install -e ".[dev]"
 
 # 4. Preparar configuración (.env)
 if [ ! -f ".env" ]; then
