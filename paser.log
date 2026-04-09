@@ -1,0 +1,22 @@
+{"timestamp": "2026-04-05T18:17:00.974325", "level": "INFO", "logger": "tools", "message": "Archivo '/mnt/DataSD/sandbox/educacionales/test_write.txt' escrito exitosamente."}
+{"timestamp": "2026-04-05T18:17:32.837705", "level": "INFO", "logger": "tools", "message": "Archivo '/mnt/DataSD/sandbox/educacionales/TODO.md' escrito exitosamente."}
+{"timestamp": "2026-04-08T23:17:26.313756", "level": "WARNING", "logger": "tools", "message": "python.wasm not found at assets/python.wasm. Using fallback."}
+{"timestamp": "2026-04-09T12:26:14.795488", "level": "WARNING", "logger": "tools", "message": "python.wasm not found at assets/python.wasm. Using fallback."}
+{"timestamp": "2026-04-09T12:34:56.766166", "level": "WARNING", "logger": "tools", "message": "python.wasm not found at assets/python.wasm. Using fallback."}
+{"timestamp": "2026-04-09T15:47:27.082847", "level": "WARNING", "message": "API Retry 1/5 in 5s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:47:33.474473", "level": "WARNING", "message": "API Retry 2/5 in 10s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:47:44.976889", "level": "WARNING", "message": "API Retry 3/5 in 20s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T12:48:36.393207", "level": "INFO", "logger": "tools", "message": "Archivo 'TODO.md' borrado."}
+{"timestamp": "2026-04-09T12:52:37.874733", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_fetch.py' to 'tests/test_fetch.py'."}
+{"timestamp": "2026-04-09T12:52:37.884499", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_fetch_v2.py' to 'tests/test_fetch_v2.py'."}
+{"timestamp": "2026-04-09T12:52:37.898040", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_direct_fetch.py' to 'tests/test_direct_fetch.py'."}
+{"timestamp": "2026-04-09T12:52:37.907877", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_smarter_fetch.py' to 'tests/test_smarter_fetch.py'."}
+{"timestamp": "2026-04-09T12:52:37.915010", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_precise_replica.py' to 'tests/test_precise_replica.py'."}
+{"timestamp": "2026-04-09T12:52:37.922386", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_actual_scrape.py' to 'tests/test_actual_scrape.py'."}
+{"timestamp": "2026-04-09T12:52:37.928555", "level": "INFO", "logger": "tools", "message": "Path moved from 'test_mqtt_output.py' to 'tests/test_mqtt_output.py'."}
+{"timestamp": "2026-04-09T15:52:38.552607", "level": "WARNING", "message": "API Retry 1/5 in 5s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:52:45.830615", "level": "WARNING", "message": "API Retry 2/5 in 10s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:52:57.279065", "level": "WARNING", "message": "API Retry 3/5 in 20s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:56:50.837855", "level": "WARNING", "message": "API Retry 1/5 in 5s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T15:56:57.388223", "level": "WARNING", "message": "API Retry 2/5 in 10s (Quota exceeded)", "module": "gemini_adapter", "taskName": null}
+{"timestamp": "2026-04-09T13:03:43.850246", "level": "INFO", "logger": "tools", "message": "Archivo 'AGENT.md' escrito exitosamente."}
